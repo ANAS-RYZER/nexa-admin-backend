@@ -18,10 +18,14 @@ const issuer_schema_1 = require("./schemas/issuer.schema");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const issuerApplication_schema_1 = require("./schemas/issuerApplication.schema");
+const spv_schema_1 = require("../spvs/schemas/spv.schema");
+const asset_schema_1 = require("../assets/schemas/asset.schema");
 let IssuersService = class IssuersService {
-    constructor(issuerUserModel, issuerApplicationModel) {
+    constructor(issuerUserModel, issuerApplicationModel, assetModel, spvModel) {
         this.issuerUserModel = issuerUserModel;
         this.issuerApplicationModel = issuerApplicationModel;
+        this.assetModel = assetModel;
+        this.spvModel = spvModel;
     }
     async getIssuerApplicationList() {
         const list = await this.issuerApplicationModel.find().exec();
@@ -44,11 +48,13 @@ let IssuersService = class IssuersService {
         this.issuerApplicationModel
             .updateOne({ _id: id }, { $set: { lastSeenByAdminAt: new Date() } })
             .exec();
+        const spvs = await this.getIssuerSpvs(application.userId);
         return {
             success: true,
             data: {
                 application,
                 issuer: issuerUser,
+                spvs: spvs.data,
             },
         };
     }
@@ -79,13 +85,53 @@ let IssuersService = class IssuersService {
             message: "Application status updated successfully",
         };
     }
+    async getIssuerSpvs(issuerId) {
+        if (!mongoose_1.Types.ObjectId.isValid(issuerId)) {
+            throw new common_1.BadRequestException("Invalid issuerId");
+        }
+        const spvs = await this.spvModel
+            .find({ userId: issuerId.toString() })
+            .lean()
+            .exec();
+        const data = spvs.map(spv => ({
+            id: spv._id.toString(),
+            name: spv.name,
+            status: spv.status,
+            type: spv.type,
+            jurisdiction: spv.jurisdiction,
+            formationDate: spv.formationDate,
+        }));
+        return {
+            success: true,
+            data: data
+        };
+    }
+    async getOnboardedAssetsCount(issuerId) {
+        if (!mongoose_1.Types.ObjectId.isValid(issuerId)) {
+            throw new common_1.BadRequestException("Invalid issuer ID");
+        }
+        const count = await this.assetModel.countDocuments({
+            issuerId: new mongoose_1.Types.ObjectId(issuerId),
+        });
+        return {
+            success: true,
+            data: {
+                issuerId,
+                count,
+            },
+        };
+    }
 };
 exports.IssuersService = IssuersService;
 exports.IssuersService = IssuersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)(issuer_schema_1.IssuerUser.name)),
     __param(1, (0, mongoose_2.InjectModel)(issuerApplication_schema_1.IssuerApplication.name)),
+    __param(2, (0, mongoose_2.InjectModel)(asset_schema_1.Asset.name)),
+    __param(3, (0, mongoose_2.InjectModel)(spv_schema_1.SPV.name)),
     __metadata("design:paramtypes", [mongoose_1.Model,
+        mongoose_1.Model,
+        mongoose_1.Model,
         mongoose_1.Model])
 ], IssuersService);
 //# sourceMappingURL=issuers.service.js.map

@@ -3,10 +3,12 @@ import { assetApproval, AssetApprovalDocument } from './schemas/assetApproval.sc
 import { AssetDocument } from '../assets/schemas/asset.schema';
 import { AssetApprovalPaginationDto } from './dto/asset-approval-pagination.dto';
 import { UpdateAssetApprovalDto } from './dto/update-asset-approval.dto';
+import { EmailService } from '../infra/email/email.service';
 export declare class AssetApprovalService {
     private readonly assetApprovalModel;
     private readonly assetModel;
-    constructor(assetApprovalModel: Model<AssetApprovalDocument>, assetModel: Model<AssetDocument>);
+    private readonly emailService;
+    constructor(assetApprovalModel: Model<AssetApprovalDocument>, assetModel: Model<AssetDocument>, emailService: EmailService);
     getAll(query: AssetApprovalPaginationDto): Promise<{
         success: boolean;
         data: (import("mongoose").FlattenMaps<import("mongoose").Document<unknown, {}, assetApproval, {}, {}> & assetApproval & Required<{

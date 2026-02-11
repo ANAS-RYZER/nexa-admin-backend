@@ -39,7 +39,7 @@ export declare const AssetAllocationCategorySchema: MongooseSchema<AssetAllocati
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetAllocationCategory, Document<unknown, {}, import("mongoose").FlatRecord<AssetAllocationCategory>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AssetAllocationCategory> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetAllocationCategory, Document<unknown, {}, import("mongoose").FlatRecord<AssetAllocationCategory>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AssetAllocationCategory> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

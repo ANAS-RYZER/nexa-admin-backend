@@ -47,6 +47,14 @@ __decorate([
         trim: true,
     }),
     __metadata("design:type", String)
+], spvStatus.prototype, "issueremail", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: String,
+        required: true,
+        trim: true,
+    }),
+    __metadata("design:type", String)
 ], spvStatus.prototype, "spvname", void 0);
 __decorate([
     (0, mongoose_1.Prop)({

@@ -15,6 +15,7 @@ const assetApproval_schema_1 = require("./schemas/assetApproval.schema");
 const asset_schema_1 = require("../assets/schemas/asset.schema");
 const spv_schema_1 = require("../spvs/schemas/spv.schema");
 const assetlist_module_1 = require("../assets/assetlist/assetlist.module");
+const email_module_1 = require("../infra/email/email.module");
 let AssetApprovalModule = class AssetApprovalModule {
 };
 exports.AssetApprovalModule = AssetApprovalModule;
@@ -27,6 +28,7 @@ exports.AssetApprovalModule = AssetApprovalModule = __decorate([
                 { name: spv_schema_1.SPV.name, schema: spv_schema_1.SPVSchema },
             ]),
             assetlist_module_1.AssetModule,
+            email_module_1.EmailModule,
         ],
         controllers: [asset_controller_1.AssetApprovalController],
         providers: [asset_service_1.AssetApprovalService],

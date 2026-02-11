@@ -12,7 +12,7 @@ export declare const AssetDueDiligenceLegalSchema: MongooseSchema<AssetDueDilige
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetDueDiligenceLegal, Document<unknown, {}, import("mongoose").FlatRecord<AssetDueDiligenceLegal>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AssetDueDiligenceLegal> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetDueDiligenceLegal, Document<unknown, {}, import("mongoose").FlatRecord<AssetDueDiligenceLegal>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AssetDueDiligenceLegal> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

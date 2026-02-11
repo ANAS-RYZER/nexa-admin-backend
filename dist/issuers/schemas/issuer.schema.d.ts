@@ -19,7 +19,7 @@ export declare const IssuerUserSchema: import("mongoose").Schema<IssuerUser, imp
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, IssuerUser, Document<unknown, {}, import("mongoose").FlatRecord<IssuerUser>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<IssuerUser> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, IssuerUser, Document<unknown, {}, import("mongoose").FlatRecord<IssuerUser>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<IssuerUser> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

@@ -14,6 +14,7 @@ async function bootstrap() {
     const allowedOrigins = [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "http://localhost:3001",
         "https://yob-admin-seven.vercel.app",
     ];
     app.use((0, cookie_parser_1.default)());

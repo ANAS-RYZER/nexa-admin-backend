@@ -10,7 +10,7 @@ export declare const FaqSchema: MongooseSchema<Faq, import("mongoose").Model<Faq
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Faq, Document<unknown, {}, import("mongoose").FlatRecord<Faq>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<Faq> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Faq, Document<unknown, {}, import("mongoose").FlatRecord<Faq>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<Faq> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

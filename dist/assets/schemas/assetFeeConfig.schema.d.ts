@@ -14,7 +14,7 @@ export declare const AssetFeeConfigSchema: MongooseSchema<AssetFeeConfig, import
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetFeeConfig, Document<unknown, {}, import("mongoose").FlatRecord<AssetFeeConfig>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AssetFeeConfig> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetFeeConfig, Document<unknown, {}, import("mongoose").FlatRecord<AssetFeeConfig>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AssetFeeConfig> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

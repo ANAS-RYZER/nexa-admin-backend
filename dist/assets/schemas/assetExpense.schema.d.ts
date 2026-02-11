@@ -12,7 +12,7 @@ export declare const AssetExpenseSchema: MongooseSchema<AssetExpense, import("mo
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetExpense, Document<unknown, {}, import("mongoose").FlatRecord<AssetExpense>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AssetExpense> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetExpense, Document<unknown, {}, import("mongoose").FlatRecord<AssetExpense>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AssetExpense> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

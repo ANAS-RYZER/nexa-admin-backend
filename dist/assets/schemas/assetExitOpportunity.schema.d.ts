@@ -10,7 +10,7 @@ export declare const ExitOpportunitySchema: MongooseSchema<ExitOpportunity, impo
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, ExitOpportunity, Document<unknown, {}, import("mongoose").FlatRecord<ExitOpportunity>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<ExitOpportunity> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, ExitOpportunity, Document<unknown, {}, import("mongoose").FlatRecord<ExitOpportunity>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<ExitOpportunity> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

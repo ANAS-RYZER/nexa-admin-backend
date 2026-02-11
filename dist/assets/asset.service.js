@@ -19,10 +19,12 @@ const mongoose_2 = require("mongoose");
 const assetApproval_schema_1 = require("./schemas/assetApproval.schema");
 const asset_schema_1 = require("../assets/schemas/asset.schema");
 const asset_type_1 = require("../assets/interfaces/asset.type");
+const email_service_1 = require("../infra/email/email.service");
 let AssetApprovalService = class AssetApprovalService {
-    constructor(assetApprovalModel, assetModel) {
+    constructor(assetApprovalModel, assetModel, emailService) {
         this.assetApprovalModel = assetApprovalModel;
         this.assetModel = assetModel;
+        this.emailService = emailService;
     }
     async getAll(query) {
         const page = Number(query.page) || 1;
@@ -73,6 +75,15 @@ let AssetApprovalService = class AssetApprovalService {
         if (assetUpdate.matchedCount === 0) {
             throw new common_1.NotFoundException('Asset not found');
         }
+        if (body.status === asset_type_1.AssetStatus.APPROVED ||
+            body.status === asset_type_1.AssetStatus.REJECTED) {
+            await this.emailService.sendAssetStatusUpdateEmail(approvalRecord.issueremail, {
+                issuerName: approvalRecord.issuername,
+                assetName: approvalRecord.assetName,
+                status: body.status,
+                adminComments: body.adminComments,
+            });
+        }
         return {
             success: true,
             message: body.status === asset_type_1.AssetStatus.APPROVED
@@ -87,6 +98,7 @@ exports.AssetApprovalService = AssetApprovalService = __decorate([
     __param(0, (0, mongoose_1.InjectModel)(assetApproval_schema_1.assetApproval.name)),
     __param(1, (0, mongoose_1.InjectModel)(asset_schema_1.Asset.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model])
+        mongoose_2.Model,
+        email_service_1.EmailService])
 ], AssetApprovalService);
 //# sourceMappingURL=asset.service.js.map

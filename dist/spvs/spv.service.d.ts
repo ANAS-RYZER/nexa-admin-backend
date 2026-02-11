@@ -3,10 +3,12 @@ import { spvStatus, SpvStatusDocument } from './schemas/spvstatus.schema';
 import { SpvStatusPaginationDto } from './dto/spv-status-pagination.dto';
 import { UpdateSpvStatusDto } from './dto/update-spv-status.dto';
 import { SPVDocument } from './schemas/spv.schema';
+import { EmailService } from '../infra/email/email.service';
 export declare class SpvStatusService {
     private readonly spvStatusModel;
     private readonly spvModel;
-    constructor(spvStatusModel: Model<SpvStatusDocument>, spvModel: Model<SPVDocument>);
+    private readonly emailService;
+    constructor(spvStatusModel: Model<SpvStatusDocument>, spvModel: Model<SPVDocument>, emailService: EmailService);
     getAll(query: SpvStatusPaginationDto): Promise<{
         success: boolean;
         data: (import("mongoose").FlattenMaps<import("mongoose").Document<unknown, {}, spvStatus, {}, {}> & spvStatus & Required<{

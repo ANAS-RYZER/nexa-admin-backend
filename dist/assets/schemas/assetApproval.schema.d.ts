@@ -8,6 +8,7 @@ export declare class assetApproval extends Document {
     assetName: string;
     status: AssetStatus;
     issuerComments?: string;
+    issueremail: string;
     adminComments?: string;
     createdAt?: Date;
     updatedAt?: Date;
@@ -16,7 +17,7 @@ export declare const AssetApprovalSchema: MongooseSchema<assetApproval, import("
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, assetApproval, Document<unknown, {}, import("mongoose").FlatRecord<assetApproval>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<assetApproval> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, assetApproval, Document<unknown, {}, import("mongoose").FlatRecord<assetApproval>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<assetApproval> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

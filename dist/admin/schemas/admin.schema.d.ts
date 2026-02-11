@@ -12,7 +12,7 @@ export declare const AdminSchema: import("mongoose").Schema<Admin, import("mongo
     _id: import("mongoose").Types.ObjectId;
 } & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Admin, Document<unknown, {}, import("mongoose").FlatRecord<Admin>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<Admin> & {
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Admin, Document<unknown, {}, import("mongoose").FlatRecord<Admin>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<Admin> & {
     _id: import("mongoose").Types.ObjectId;
 } & {
     __v: number;

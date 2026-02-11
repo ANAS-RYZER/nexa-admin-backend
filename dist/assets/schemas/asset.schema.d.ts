@@ -150,7 +150,7 @@ export declare const AssetSchema: MongooseSchema<Asset, import("mongoose").Model
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Asset, Document<unknown, {}, import("mongoose").FlatRecord<Asset>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<Asset> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Asset, Document<unknown, {}, import("mongoose").FlatRecord<Asset>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<Asset> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

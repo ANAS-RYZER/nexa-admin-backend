@@ -65,6 +65,14 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: String,
+        required: true,
+        trim: true,
+    }),
+    __metadata("design:type", String)
+], assetApproval.prototype, "issueremail", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: String,
         trim: true,
     }),
     __metadata("design:type", String)

@@ -13,6 +13,8 @@ const issuers_controller_1 = require("./issuers.controller");
 const mongoose_1 = require("@nestjs/mongoose");
 const issuer_schema_1 = require("./schemas/issuer.schema");
 const issuerApplication_schema_1 = require("./schemas/issuerApplication.schema");
+const asset_schema_1 = require("../assets/schemas/asset.schema");
+const spv_schema_1 = require("../spvs/schemas/spv.schema");
 let IssuersModule = class IssuersModule {
 };
 exports.IssuersModule = IssuersModule;
@@ -24,6 +26,8 @@ exports.IssuersModule = IssuersModule = __decorate([
             mongoose_1.MongooseModule.forFeature([
                 { name: issuer_schema_1.IssuerUser.name, schema: issuer_schema_1.IssuerUserSchema },
                 { name: issuerApplication_schema_1.IssuerApplication.name, schema: issuerApplication_schema_1.IssuerApplicationSchema },
+                { name: asset_schema_1.Asset.name, schema: asset_schema_1.AssetSchema },
+                { name: spv_schema_1.SPV.name, schema: spv_schema_1.SPVSchema },
             ]),
         ],
     })

@@ -18,7 +18,7 @@ export declare const AssetDocumentSchema: MongooseSchema<AssetDoc, import("mongo
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetDoc, Document<unknown, {}, import("mongoose").FlatRecord<AssetDoc>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AssetDoc> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetDoc, Document<unknown, {}, import("mongoose").FlatRecord<AssetDoc>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AssetDoc> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

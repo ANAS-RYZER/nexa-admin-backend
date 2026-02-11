@@ -25,6 +25,12 @@ let IssuersController = class IssuersController {
     async getIssuerApplicationList() {
         return this.issuersService.getIssuerApplicationList();
     }
+    async getOnboardedAssetsCount(issuerId) {
+        if (!issuerId) {
+            throw new common_1.BadRequestException("issuerId is required");
+        }
+        return this.issuersService.getOnboardedAssetsCount(issuerId);
+    }
     async getIssuerById(id) {
         return this.issuersService.getIssuerById(id);
     }
@@ -45,6 +51,19 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], IssuersController.prototype, "getIssuerApplicationList", null);
+__decorate([
+    (0, common_1.Get)("onboarded-assets-count"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: "Get count of onboarded assets for an issuer" }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: "Asset count returned" }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "Unauthorized" }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: "Bad request" }),
+    __param(0, (0, common_1.Query)("issuerId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], IssuersController.prototype, "getOnboardedAssetsCount", null);
 __decorate([
     (0, common_1.Get)(":id"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),

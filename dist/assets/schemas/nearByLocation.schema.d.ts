@@ -30,7 +30,7 @@ export declare const NearByLocationSchema: MongooseSchema<NearByLocation, import
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, NearByLocation, Document<unknown, {}, import("mongoose").FlatRecord<NearByLocation>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<NearByLocation> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, NearByLocation, Document<unknown, {}, import("mongoose").FlatRecord<NearByLocation>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<NearByLocation> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

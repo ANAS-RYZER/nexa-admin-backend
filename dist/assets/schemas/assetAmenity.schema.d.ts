@@ -13,7 +13,7 @@ export declare const AssetAmenitySchema: MongooseSchema<AssetAmenity, import("mo
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetAmenity, Document<unknown, {}, import("mongoose").FlatRecord<AssetAmenity>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AssetAmenity> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetAmenity, Document<unknown, {}, import("mongoose").FlatRecord<AssetAmenity>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AssetAmenity> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

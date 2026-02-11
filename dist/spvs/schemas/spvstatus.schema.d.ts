@@ -5,6 +5,7 @@ export declare class spvStatus extends Document {
     issuerId: MongooseSchema.Types.ObjectId;
     spvId: MongooseSchema.Types.ObjectId;
     issuername: string;
+    issueremail: string;
     spvname: string;
     status: CompanyStatus;
     issuerComments?: string;
@@ -16,7 +17,7 @@ export declare const SpvStatusSchema: MongooseSchema<spvStatus, import("mongoose
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, spvStatus, Document<unknown, {}, import("mongoose").FlatRecord<spvStatus>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<spvStatus> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, spvStatus, Document<unknown, {}, import("mongoose").FlatRecord<spvStatus>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<spvStatus> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

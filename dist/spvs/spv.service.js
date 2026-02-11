@@ -19,10 +19,12 @@ const mongoose_2 = require("mongoose");
 const spvstatus_schema_1 = require("./schemas/spvstatus.schema");
 const spv_schema_1 = require("./schemas/spv.schema");
 const spv_schema_2 = require("./schemas/spv.schema");
+const email_service_1 = require("../infra/email/email.service");
 let SpvStatusService = class SpvStatusService {
-    constructor(spvStatusModel, spvModel) {
+    constructor(spvStatusModel, spvModel, emailService) {
         this.spvStatusModel = spvStatusModel;
         this.spvModel = spvModel;
+        this.emailService = emailService;
     }
     async getAll(query) {
         const page = query.page ?? 1;
@@ -70,6 +72,15 @@ let SpvStatusService = class SpvStatusService {
         if (spvUpdateResult.matchedCount === 0) {
             throw new common_1.NotFoundException('SPV record not found');
         }
+        if (body.status === spv_schema_1.CompanyStatus.ACTIVE ||
+            body.status === spv_schema_1.CompanyStatus.REJECTED) {
+            await this.emailService.sendSpvStatusUpdateEmail(spvStatusRecord.issueremail, {
+                issuerName: spvStatusRecord.issuername,
+                spvName: spvStatusRecord.spvname,
+                status: body.status,
+                adminComments: body.adminComments,
+            });
+        }
         return {
             success: true,
             message: body.status === spv_schema_1.CompanyStatus.ACTIVE
@@ -84,6 +95,7 @@ exports.SpvStatusService = SpvStatusService = __decorate([
     __param(0, (0, mongoose_1.InjectModel)(spvstatus_schema_1.spvStatus.name)),
     __param(1, (0, mongoose_1.InjectModel)(spv_schema_2.SPV.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model])
+        mongoose_2.Model,
+        email_service_1.EmailService])
 ], SpvStatusService);
 //# sourceMappingURL=spv.service.js.map

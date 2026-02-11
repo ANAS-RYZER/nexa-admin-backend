@@ -10,7 +10,7 @@ export declare const AssetTermsAndConditionsSchema: MongooseSchema<AssetTermsAnd
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetTermsAndConditions, Document<unknown, {}, import("mongoose").FlatRecord<AssetTermsAndConditions>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AssetTermsAndConditions> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetTermsAndConditions, Document<unknown, {}, import("mongoose").FlatRecord<AssetTermsAndConditions>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AssetTermsAndConditions> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

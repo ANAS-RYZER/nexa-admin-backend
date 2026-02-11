@@ -10,7 +10,7 @@ export declare const RiskDisclosureSchema: MongooseSchema<RiskDisclosure, import
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, RiskDisclosure, Document<unknown, {}, import("mongoose").FlatRecord<RiskDisclosure>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<RiskDisclosure> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, RiskDisclosure, Document<unknown, {}, import("mongoose").FlatRecord<RiskDisclosure>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<RiskDisclosure> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

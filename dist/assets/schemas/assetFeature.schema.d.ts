@@ -13,7 +13,7 @@ export declare const AssetFeatureSchema: MongooseSchema<AssetFeature, import("mo
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetFeature, Document<unknown, {}, import("mongoose").FlatRecord<AssetFeature>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AssetFeature> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetFeature, Document<unknown, {}, import("mongoose").FlatRecord<AssetFeature>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AssetFeature> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

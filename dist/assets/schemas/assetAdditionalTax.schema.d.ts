@@ -10,7 +10,7 @@ export declare const AdditionalTaxSchema: MongooseSchema<AdditionalTax, import("
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AdditionalTax, Document<unknown, {}, import("mongoose").FlatRecord<AdditionalTax>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AdditionalTax> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AdditionalTax, Document<unknown, {}, import("mongoose").FlatRecord<AdditionalTax>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AdditionalTax> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

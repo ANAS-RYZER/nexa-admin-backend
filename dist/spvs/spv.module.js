@@ -14,6 +14,7 @@ const spv_service_1 = require("./spv.service");
 const spvstatus_schema_1 = require("./schemas/spvstatus.schema");
 const spv_schema_1 = require("./schemas/spv.schema");
 const spvlist_module_1 = require("./spvlist/spvlist.module");
+const email_module_1 = require("../infra/email/email.module");
 let SpvStatusModule = class SpvStatusModule {
 };
 exports.SpvStatusModule = SpvStatusModule;
@@ -25,6 +26,7 @@ exports.SpvStatusModule = SpvStatusModule = __decorate([
                 { name: spv_schema_1.SPV.name, schema: spv_schema_1.SPVSchema },
             ]),
             spvlist_module_1.SpvModule,
+            email_module_1.EmailModule,
         ],
         controllers: [spv_controller_1.SpvStatusController],
         providers: [spv_service_1.SpvStatusService],

@@ -121,7 +121,7 @@ export declare const SPVSchema: import("mongoose").Schema<SPV, import("mongoose"
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, SPV, Document<unknown, {}, import("mongoose").FlatRecord<SPV>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<SPV> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, SPV, Document<unknown, {}, import("mongoose").FlatRecord<SPV>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<SPV> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

@@ -10,7 +10,7 @@ export declare const RiskFactorSchema: MongooseSchema<RiskFactor, import("mongoo
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, RiskFactor, Document<unknown, {}, import("mongoose").FlatRecord<RiskFactor>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<RiskFactor> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, RiskFactor, Document<unknown, {}, import("mongoose").FlatRecord<RiskFactor>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<RiskFactor> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

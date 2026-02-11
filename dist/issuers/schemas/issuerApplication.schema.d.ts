@@ -38,7 +38,7 @@ export declare const IssuerApplicationSchema: import("mongoose").Schema<IssuerAp
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, IssuerApplication, Document<unknown, {}, import("mongoose").FlatRecord<IssuerApplication>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<IssuerApplication> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, IssuerApplication, Document<unknown, {}, import("mongoose").FlatRecord<IssuerApplication>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<IssuerApplication> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;

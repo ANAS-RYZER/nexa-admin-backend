@@ -26,7 +26,7 @@ export declare const AssetTenantSchema: MongooseSchema<AssetTenant, import("mong
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetTenant, Document<unknown, {}, import("mongoose").FlatRecord<AssetTenant>, {}, import("mongoose").DefaultSchemaOptions> & import("mongoose").FlatRecord<AssetTenant> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, AssetTenant, Document<unknown, {}, import("mongoose").FlatRecord<AssetTenant>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<AssetTenant> & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
     __v: number;
