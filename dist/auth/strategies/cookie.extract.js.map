@@ -1,0 +1,1 @@
+{"version":3,"file":"cookie.extract.js","sourceRoot":"","sources":["../../../src/auth/strategies/cookie.extract.ts"],"names":[],"mappings":";;;AAEO,MAAM,eAAe,GAAG,CAAC,GAAY,EAAiB,EAAE;IAC7D,IAAI,GAAG,IAAI,GAAG,CAAC,OAAO,EAAE,CAAC;QACvB,OAAO,GAAG,CAAC,OAAO,CAAC,cAAc,CAAC,IAAI,IAAI,CAAC;IAC7C,CAAC;IACD,OAAO,IAAI,CAAC;AACd,CAAC,CAAC;AALW,QAAA,eAAe,mBAK1B"}
