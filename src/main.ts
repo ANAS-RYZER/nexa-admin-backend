@@ -13,6 +13,8 @@ async function bootstrap() {
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:3001",
+    "https://yob-asset-admin.vercel.app",
+    
     "https://yob-admin-seven.vercel.app",
   ];
   app.use(cookieParser());
