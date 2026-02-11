@@ -14,7 +14,7 @@ async function bootstrap() {
     "http://127.0.0.1:3000",
     "http://localhost:3001",
 
-    "https://yob-admin-portal.vercel.app/login
+    "https://yob-admin-portal.vercel.app"
     
     "https://yob-admin-seven.vercel.app",
   ];
