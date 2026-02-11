@@ -42,6 +42,13 @@ export class spvStatus extends Document {
     required: true,
     trim: true,
   })
+  issueremail: string;
+
+  @Prop({
+    type: String,
+    required: true,
+    trim: true,
+  })
   spvname: string;
 
   @Prop({

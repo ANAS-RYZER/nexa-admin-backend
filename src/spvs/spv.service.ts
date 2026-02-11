@@ -6,6 +6,7 @@ import { SpvStatusPaginationDto } from './dto/spv-status-pagination.dto';
 import { UpdateSpvStatusDto } from './dto/update-spv-status.dto';
 import { CompanyStatus } from './schemas/spv.schema';
 import { SPV, SPVDocument } from './schemas/spv.schema';
+import { EmailService } from '../infra/email/email.service';
 
 
 @Injectable()
@@ -16,6 +17,8 @@ export class SpvStatusService {
 
     @InjectModel(SPV.name)
     private readonly spvModel: Model<SPVDocument>, 
+
+     private readonly emailService: EmailService,
   ) {}
 
   async getAll(query: SpvStatusPaginationDto) {
@@ -80,6 +83,21 @@ export class SpvStatusService {
 
     if (spvUpdateResult.matchedCount === 0) {
       throw new NotFoundException('SPV record not found');
+    }
+
+    if (
+      body.status === CompanyStatus.ACTIVE ||
+      body.status === CompanyStatus.REJECTED
+    ) {
+      await this.emailService.sendSpvStatusUpdateEmail(
+        spvStatusRecord.issueremail,
+        {
+          issuerName: spvStatusRecord.issuername,
+          spvName: spvStatusRecord.spvname,
+          status: body.status,
+          adminComments: body.adminComments,
+        },
+      );
     }
 
     return {

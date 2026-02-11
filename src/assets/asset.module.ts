@@ -12,6 +12,7 @@ import {
 import { Asset, AssetSchema } from '../assets/schemas/asset.schema';
 import { SPV, SPVSchema } from '../spvs/schemas/spv.schema';
 import  {AssetModule} from '../assets/assetlist/assetlist.module';
+import { EmailModule } from '../infra/email/email.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import  {AssetModule} from '../assets/assetlist/assetlist.module';
       { name: SPV.name, schema: SPVSchema },
     ]),
       AssetModule,
+      EmailModule,
   ],
   controllers: [AssetApprovalController],
   providers: [AssetApprovalService],

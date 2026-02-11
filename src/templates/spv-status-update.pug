@@ -1,0 +1,40 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    title SPV Status Update
+  body(style="font-family: Arial, sans-serif; background:#f5f6fa; padding:20px;")
+    table(width="100%" cellpadding="0" cellspacing="0")
+      tr
+        td(align="center")
+          table(width="600" style="background:#ffffff; padding:24px; border-radius:8px;")
+            tr
+              td
+                h2 Hello #{issuerName},
+
+                p
+                  | Your SPV
+                  strong #{spvName}
+                  |  has been reviewed by our admin team.
+
+                if status === 'Approval'
+                  p(style="color:#16a34a; font-weight:bold")
+                    | Your SPV has been approved and activated.
+
+                if status === 'Rejected'
+                  p(style="color:#dc2626; font-weight:bold")
+                    |  Your SPV has been rejected.
+
+                if adminComments
+                  hr
+                  p
+                    strong Admin Comments:
+                  p #{adminComments}
+
+                br
+                p If you need any help, please contact our support team.
+
+                br
+                p Regards,
+                p
+                  strong NEXA Team

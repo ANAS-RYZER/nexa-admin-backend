@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Patch, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, Param, Patch, Query, UseGuards } from "@nestjs/common";
 import { IssuersService } from "./issuers.service";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { ApiBearerAuth, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { UpdateApplicationStatusDto } from "./dto/updateApplicationStatus.dto";
+import { Types } from "mongoose";
 
 @Controller("issuers")
 export class IssuersController {
@@ -17,6 +18,22 @@ export class IssuersController {
   async getIssuerApplicationList() {
     return this.issuersService.getIssuerApplicationList();
   }
+
+
+  @Get("onboarded-assets-count")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Get count of onboarded assets for an issuer" })
+  @ApiResponse({ status: 200, description: "Asset count returned" })
+  @ApiResponse({ status: 401, description: "Unauthorized" })
+  @ApiResponse({ status: 400, description: "Bad request" })
+  async getOnboardedAssetsCount(@Query("issuerId") issuerId: string) {
+    if (!issuerId) {
+      throw new BadRequestException("issuerId is required");
+    }
+    return this.issuersService.getOnboardedAssetsCount(issuerId);
+  }
+
   @Get(":id")
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -27,6 +44,7 @@ export class IssuersController {
   async getIssuerById(@Param("id") id: string) {
     return this.issuersService.getIssuerById(id);
   }
+
   @Patch(":id/status")
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()

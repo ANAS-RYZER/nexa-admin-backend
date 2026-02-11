@@ -7,6 +7,7 @@ import { SpvStatusService } from './spv.service';
 import { spvStatus, SpvStatusSchema } from './schemas/spvstatus.schema';
 import { SPV, SPVSchema } from './schemas/spv.schema';
 import { SpvModule } from './spvlist/spvlist.module';
+import { EmailModule } from '../infra/email/email.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { SpvModule } from './spvlist/spvlist.module';
       { name: SPV.name, schema: SPVSchema },
     ]),
     SpvModule, 
+    EmailModule,
   ],
   controllers: [SpvStatusController],
   providers: [SpvStatusService],

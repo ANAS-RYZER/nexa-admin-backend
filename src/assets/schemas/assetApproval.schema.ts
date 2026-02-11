@@ -50,12 +50,19 @@ export class assetApproval extends Document {
   })
   status: AssetStatus;
 
-   @Prop({
+  @Prop({
     type: String,
     trim: true,
-    })
-    issuerComments?: string;
-  
+  })
+  issuerComments?: string;
+
+  @Prop({
+      type: String,
+      required: true,
+      trim: true,
+  })
+  issueremail: string;
+
   @Prop({
     type: String,
     trim: true,

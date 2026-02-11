@@ -7,6 +7,7 @@ import { Asset, AssetDocument } from '../assets/schemas/asset.schema';
 import { AssetApprovalPaginationDto } from './dto/asset-approval-pagination.dto';
 import { UpdateAssetApprovalDto } from './dto/update-asset-approval.dto';
 import { AssetStatus } from '../assets/interfaces/asset.type';
+import { EmailService } from '../infra/email/email.service';
 
 @Injectable()
 export class AssetApprovalService {
@@ -16,6 +17,8 @@ export class AssetApprovalService {
 
     @InjectModel(Asset.name)
     private readonly assetModel: Model<AssetDocument>,
+
+    private readonly emailService: EmailService,
   ) {}
 
   // ============================
@@ -95,6 +98,22 @@ export class AssetApprovalService {
 
     if (assetUpdate.matchedCount === 0) {
       throw new NotFoundException('Asset not found');
+    }
+
+    // Send email notification to issuer when asset is approved or rejected
+    if (
+      body.status === AssetStatus.APPROVED ||
+      body.status === AssetStatus.REJECTED
+    ) {
+      await this.emailService.sendAssetStatusUpdateEmail(
+        approvalRecord.issueremail,
+        {
+          issuerName: approvalRecord.issuername,
+          assetName: approvalRecord.assetName,
+          status: body.status,
+          adminComments: body.adminComments,
+        },
+      );
     }
 
     return {

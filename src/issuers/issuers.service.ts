@@ -7,6 +7,8 @@ import {
   IssuerApplication,
   IssuerApplicationDocument,
 } from "./schemas/issuerApplication.schema";
+import { CompanyStatus, SPV, SPVType, SPVDocument } from "src/spvs/schemas/spv.schema";
+import { Asset, AssetDocument } from "../assets/schemas/asset.schema";
 
 @Injectable()
 export class IssuersService {
@@ -14,7 +16,11 @@ export class IssuersService {
     @InjectModel(IssuerUser.name)
     private issuerUserModel: Model<IssuerUserDocument>,
     @InjectModel(IssuerApplication.name)
-    private issuerApplicationModel: Model<IssuerApplicationDocument>
+    private issuerApplicationModel: Model<IssuerApplicationDocument>,
+    @InjectModel(Asset.name)
+    private assetModel: Model<AssetDocument>,
+    @InjectModel(SPV.name)
+    private spvModel: Model<SPVDocument>
   ) {}
 
   async getIssuerApplicationList(): Promise<{
@@ -49,11 +55,14 @@ export class IssuersService {
       .updateOne({ _id: id }, { $set: { lastSeenByAdminAt: new Date() } })
       .exec();
 
+    const spvs = await this.getIssuerSpvs(application.userId);
+
     return {
       success: true,
       data: {
         application,
         issuer: issuerUser,
+        spvs: spvs.data,
       },
     };
   }
@@ -100,6 +109,67 @@ export class IssuersService {
     return {
       success: true,
       message: "Application status updated successfully",
+    };
+  }
+
+
+  async getIssuerSpvs(issuerId: string): Promise<{
+    success: boolean;
+    data: {
+      id: string;
+      name: string;
+      status: CompanyStatus;
+      type: SPVType;
+      jurisdiction: string;
+      formationDate: Date;
+    }[];
+  }> {
+    if (!Types.ObjectId.isValid(issuerId)) {
+      throw new BadRequestException("Invalid issuerId");
+    }
+
+    // SPV.userId is stored as a string, so we convert issuerId to string for matching
+    const spvs = await this.spvModel
+      .find({ userId: issuerId.toString() })
+      .lean()
+      .exec();
+
+  const data = spvs.map(spv => ({
+    id: spv._id.toString(),
+    name: spv.name,
+    status: spv.status,
+    type: spv.type,
+    jurisdiction: spv.jurisdiction,
+    formationDate: spv.formationDate,
+  }));
+
+    return {
+      success: true,
+      data: data
+    };
+  }
+
+  async getOnboardedAssetsCount(issuerId: string): Promise<{
+    success: boolean;
+    data: {
+      issuerId: string;
+      count: number;
+    };
+  }> {
+    if (!Types.ObjectId.isValid(issuerId)) {
+      throw new BadRequestException("Invalid issuer ID");
+    }
+
+    const count = await this.assetModel.countDocuments({
+      issuerId: new Types.ObjectId(issuerId),
+    });
+
+    return {
+      success: true,
+      data: {
+        issuerId,
+        count,
+      },
     };
   }
 }
