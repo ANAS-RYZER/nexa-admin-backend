@@ -1,9 +1,9 @@
-import { Model, Types } from 'mongoose';
-import { assetApproval, AssetApprovalDocument } from './schemas/assetApproval.schema';
-import { AssetDocument } from '../assets/schemas/asset.schema';
-import { AssetApprovalPaginationDto } from './dto/asset-approval-pagination.dto';
-import { UpdateAssetApprovalDto } from './dto/update-asset-approval.dto';
-import { EmailService } from '../infra/email/email.service';
+import { Model, Types } from "mongoose";
+import { assetApproval, AssetApprovalDocument } from "./schemas/assetApproval.schema";
+import { AssetDocument } from "../assets/schemas/asset.schema";
+import { AssetApprovalPaginationDto } from "./dto/asset-approval-pagination.dto";
+import { UpdateAssetApprovalDto } from "./dto/update-asset-approval.dto";
+import { EmailService } from "../infra/email/email.service";
 export declare class AssetApprovalService {
     private readonly assetApprovalModel;
     private readonly assetModel;

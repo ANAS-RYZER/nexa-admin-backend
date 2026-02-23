@@ -1,6 +1,7 @@
-import { CompanyStatus } from "./spv.schema";
+import { CompanyStatus, SPV } from "./spv.schema";
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { IssuerUser } from "src/issuers/schemas/issuer.schema";
 
 export type SpvStatusDocument = HydratedDocument<spvStatus>;
 
@@ -18,14 +19,14 @@ export type SpvStatusDocument = HydratedDocument<spvStatus>;
 export class spvStatus extends Document {
   @Prop({
     type: MongooseSchema.Types.ObjectId,
-    ref: 'issuerprofiles',
+    ref: IssuerUser.name,
     required: true,
   })
   issuerId: MongooseSchema.Types.ObjectId;
 
   @Prop({
     type: MongooseSchema.Types.ObjectId,
-    ref: 'spvs',
+    ref: SPV.name,
     required: true,
   })
   spvId: MongooseSchema.Types.ObjectId;
@@ -52,7 +53,7 @@ export class spvStatus extends Document {
   spvname: string;
 
   @Prop({
-    enun: Object.values(CompanyStatus),
+    enum: Object.values(CompanyStatus),
     required: true,
   })
   status: CompanyStatus;

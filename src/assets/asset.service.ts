@@ -1,13 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model, Types } from "mongoose";
 
-import { assetApproval, AssetApprovalDocument } from './schemas/assetApproval.schema';
-import { Asset, AssetDocument } from '../assets/schemas/asset.schema';
-import { AssetApprovalPaginationDto } from './dto/asset-approval-pagination.dto';
-import { UpdateAssetApprovalDto } from './dto/update-asset-approval.dto';
-import { AssetStatus } from '../assets/interfaces/asset.type';
-import { EmailService } from '../infra/email/email.service';
+import {
+  assetApproval,
+  AssetApprovalDocument,
+} from "./schemas/assetApproval.schema";
+import { Asset, AssetDocument } from "../assets/schemas/asset.schema";
+import { AssetApprovalPaginationDto } from "./dto/asset-approval-pagination.dto";
+import { UpdateAssetApprovalDto } from "./dto/update-asset-approval.dto";
+import { AssetStatus } from "../assets/interfaces/asset.type";
+import { EmailService } from "../infra/email/email.service";
 
 @Injectable()
 export class AssetApprovalService {
@@ -66,10 +69,7 @@ export class AssetApprovalService {
   // ============================
   // APPROVE / REJECT ASSET
   // ============================
-  async updateAssetApproval(
-    assetId: string,
-    body: UpdateAssetApprovalDto,
-  ) {
+  async updateAssetApproval(assetId: string, body: UpdateAssetApprovalDto) {
     const assetObjectId = new Types.ObjectId(assetId);
 
     // Find AssetApproval record
@@ -78,27 +78,44 @@ export class AssetApprovalService {
     });
 
     if (!approvalRecord) {
-      throw new NotFoundException('Asset approval record not found');
+      throw new NotFoundException("Asset approval record not found");
     }
 
     // Update AssetApproval (always)
-    await this.assetApprovalModel.updateOne(
-      { _id: approvalRecord._id },
-      {
-        status: body.status,
-        adminComments: body.adminComments ?? null,
-      },
-    );
+    const updatedAssetApproval =
+      await this.assetApprovalModel.findByIdAndUpdate(
+        approvalRecord._id,
+        {
+          status: body.status,
+          adminComments: body.adminComments ?? null,
+        },
+        { new: true },
+      );
 
-    // Update Asset status (Approved / Rejected)
-    const assetUpdate = await this.assetModel.updateOne(
-      { _id: assetObjectId },
-      { status: body.status },
-    );
-
-    if (assetUpdate.matchedCount === 0) {
-      throw new NotFoundException('Asset not found');
+    if (!updatedAssetApproval) {
+      throw new NotFoundException("Failed to update Asset approval record");
     }
+
+    let assetUpdateResult = null;
+
+    if (updatedAssetApproval?.status === AssetStatus.APPROVED) {
+      assetUpdateResult = await this.assetModel.findByIdAndUpdate(
+        assetObjectId,
+        {
+          status: body.status,
+          blockchain: {
+            spvAddress: body.blockchain?.spvAddress,
+            daoAddress: body.blockchain?.daoAddress,
+            txHash: body.blockchain?.txHash,
+          },
+        },
+        { new: true },
+      );
+    }
+    if (!assetUpdateResult) {
+      throw new NotFoundException("Failed to update Asset record");
+    }
+    // Update Asset status (Approved / Rejected)
 
     // Send email notification to issuer when asset is approved or rejected
     if (
@@ -120,8 +137,8 @@ export class AssetApprovalService {
       success: true,
       message:
         body.status === AssetStatus.APPROVED
-          ? 'Asset approved successfully'
-          : 'Asset rejected successfully',
+          ? "Asset approved successfully"
+          : "Asset rejected successfully",
     };
   }
 }

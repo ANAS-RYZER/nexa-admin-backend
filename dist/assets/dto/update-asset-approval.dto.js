@@ -9,15 +9,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateAssetApprovalDto = void 0;
+exports.UpdateAssetApprovalDto = exports.BlockChainDto = void 0;
 const class_validator_1 = require("class-validator");
 const asset_type_1 = require("../../assets/interfaces/asset.type");
+const class_transformer_1 = require("class-transformer");
+class BlockChainDto {
+}
+exports.BlockChainDto = BlockChainDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], BlockChainDto.prototype, "spvAddress", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], BlockChainDto.prototype, "daoAddress", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], BlockChainDto.prototype, "txHash", void 0);
 class UpdateAssetApprovalDto {
 }
 exports.UpdateAssetApprovalDto = UpdateAssetApprovalDto;
 __decorate([
     (0, class_validator_1.IsEnum)([asset_type_1.AssetStatus.APPROVED, asset_type_1.AssetStatus.REJECTED], {
-        message: 'Status must be Approved or Rejected',
+        message: "Status must be Approved or Rejected",
     }),
     __metadata("design:type", String)
 ], UpdateAssetApprovalDto.prototype, "status", void 0);
@@ -26,4 +43,10 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateAssetApprovalDto.prototype, "adminComments", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmptyObject)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => BlockChainDto),
+    __metadata("design:type", BlockChainDto)
+], UpdateAssetApprovalDto.prototype, "blockchain", void 0);
 //# sourceMappingURL=update-asset-approval.dto.js.map

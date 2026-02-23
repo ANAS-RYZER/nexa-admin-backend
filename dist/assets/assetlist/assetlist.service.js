@@ -31,142 +31,160 @@ let AssetService = class AssetService {
             },
             {
                 $lookup: {
-                    from: this.spvModel.collection.name,
-                    localField: 'spvId',
-                    foreignField: '_id',
-                    as: 'company',
+                    from: "spvs",
+                    let: { spvId: "$spvId" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ["$_id", { $toObjectId: "$$spvId" }],
+                                },
+                            },
+                        },
+                        {
+                            $project: {
+                                _id: 1,
+                                name: 1,
+                                userId: 1,
+                                jurisdiction: 1,
+                                status: 1,
+                                blockchain: 1,
+                            },
+                        },
+                    ],
+                    as: "company",
                 },
             },
             {
                 $unwind: {
-                    path: '$company',
+                    path: "$company",
                     preserveNullAndEmptyArrays: true,
                 },
             },
             {
                 $lookup: {
-                    from: 'faqs',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'faqs',
+                    from: "faqs",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "faqs",
                 },
             },
             {
                 $lookup: {
-                    from: 'assettenants',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'tenants',
+                    from: "assettenants",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "tenants",
                 },
             },
             {
                 $lookup: {
-                    from: 'assetdocuments',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'documents',
+                    from: "assetdocuments",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "documents",
                 },
             },
             {
                 $lookup: {
-                    from: 'assetamenities',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'amenities',
+                    from: "assetamenities",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "amenities",
                 },
             },
             {
                 $lookup: {
-                    from: 'assetexpenses',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'expenses',
+                    from: "assetexpenses",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "expenses",
                 },
             },
             {
                 $lookup: {
-                    from: 'assetfeatures',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'features',
+                    from: "assetfeatures",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "features",
                 },
             },
             {
                 $lookup: {
-                    from: 'riskfactors',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'riskFactors',
+                    from: "riskfactors",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "riskFactors",
                 },
             },
             {
                 $lookup: {
-                    from: 'riskdisclosures',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'riskDisclosures',
+                    from: "riskdisclosures",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "riskDisclosures",
                 },
             },
             {
                 $lookup: {
-                    from: 'assettermsandconditions',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'termsAndConditions',
+                    from: "assettermsandconditions",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "termsAndConditions",
                 },
             },
             {
                 $lookup: {
-                    from: 'exitopportunities',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'exitOpportunities',
+                    from: "exitopportunities",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "exitOpportunities",
                 },
             },
             {
                 $lookup: {
-                    from: 'additionaltaxes',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'additionalTaxes',
+                    from: "additionaltaxes",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "additionalTaxes",
                 },
             },
             {
                 $lookup: {
-                    from: 'assetduediligencelegals',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'dueDiligenceLegal',
+                    from: "assetduediligencelegals",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "dueDiligenceLegal",
                 },
             },
             {
                 $lookup: {
-                    from: 'assetduediligencestructures',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'dueDiligenceStructure',
+                    from: "assetduediligencestructures",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "dueDiligenceStructure",
                 },
             },
             {
                 $lookup: {
-                    from: 'assetduediligencevaluations',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'dueDiligenceValuation',
+                    from: "assetduediligencevaluations",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "dueDiligenceValuation",
                 },
             },
             {
                 $lookup: {
-                    from: 'documenttemplates',
-                    localField: '_id',
-                    foreignField: 'assetId',
-                    as: 'signatureDocuments',
+                    from: "documenttemplates",
+                    localField: "_id",
+                    foreignField: "assetId",
+                    as: "signatureDocuments",
                 },
             },
         ];
         const result = await this.assetModel.aggregate(pipeline);
         if (!result.length) {
-            throw new common_1.NotFoundException('Asset not found');
+            throw new common_1.NotFoundException("Asset not found");
         }
         const asset = result[0];
         return {
