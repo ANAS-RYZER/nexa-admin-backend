@@ -6,13 +6,15 @@ export declare class SpvStatusController {
     constructor(spvStatusService: SpvStatusService);
     getSpvStatusList(query: SpvStatusPaginationDto): Promise<{
         success: boolean;
-        data: (import("mongoose").FlattenMaps<import("mongoose").Document<unknown, {}, import("./schemas/spvstatus.schema").spvStatus, {}, {}> & import("./schemas/spvstatus.schema").spvStatus & Required<{
+        data: (import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./schemas/spvstatus.schema").spvStatus, {}, {}> & import("./schemas/spvstatus.schema").spvStatus & Required<{
             _id: import("mongoose").Types.ObjectId;
         }> & {
             __v: number;
-        }> & Required<{
+        }, {}, {}> & import("mongoose").Document<unknown, {}, import("./schemas/spvstatus.schema").spvStatus, {}, {}> & import("./schemas/spvstatus.schema").spvStatus & Required<{
             _id: import("mongoose").Types.ObjectId;
-        }>)[];
+        }> & {
+            __v: number;
+        })[];
         pagination: {
             page: number;
             limit: number;

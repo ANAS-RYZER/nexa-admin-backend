@@ -12,6 +12,7 @@ import {
   EInvestorAcreditation,
   EKycOrAmlRequirements,
 } from "../interfaces/asset.type";
+import { SPV } from "src/spvs/schemas/spv.schema";
 
 export type AssetDocument = HydratedDocument<Asset>;
 
@@ -25,6 +26,21 @@ export type AssetDocument = HydratedDocument<Asset>;
     },
   },
 })
+@Schema({ _id: false })
+export class BlockChainAddresses {
+  @Prop()
+  spvAddress?: string;
+
+  @Prop()
+  daoAddress?: string;
+
+  @Prop()
+  txHash?: string;
+}
+
+export const BlockChainAddressesSchema =
+  SchemaFactory.createForClass(BlockChainAddresses);
+
 export class Asset extends Document {
   @Prop({
     type: MongooseSchema.Types.ObjectId,
@@ -35,7 +51,7 @@ export class Asset extends Document {
 
   @Prop({
     type: MongooseSchema.Types.ObjectId,
-    ref: "spvs",
+    ref: SPV.name,
     required: true,
   })
   spvId: MongooseSchema.Types.ObjectId;
@@ -151,6 +167,8 @@ export class Asset extends Document {
     default: null,
   })
   longitude?: number;
+  @Prop({ type: BlockChainAddressesSchema, default: {} })
+  blockchain?: BlockChainAddresses;
 
   @Prop({
     type: Boolean,

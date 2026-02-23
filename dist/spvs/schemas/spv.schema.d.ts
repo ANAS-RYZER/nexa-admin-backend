@@ -1,4 +1,4 @@
-import { Document, HydratedDocument } from 'mongoose';
+import { Document, HydratedDocument } from "mongoose";
 export type SPVDocument = HydratedDocument<SPV>;
 export declare enum SPVType {
     LLC = "LLC",
@@ -96,6 +96,20 @@ export declare class DAOConfiguration {
     governanceRights?: GovernanceRights;
     issuerRepSignature?: boolean;
 }
+export declare class BlockChainAddresses {
+    spvAddress?: string;
+    daoAddress?: string;
+    txHash?: string;
+}
+export declare const BlockChainAddressesSchema: import("mongoose").Schema<BlockChainAddresses, import("mongoose").Model<BlockChainAddresses, any, any, any, Document<unknown, any, BlockChainAddresses, any, {}> & BlockChainAddresses & {
+    _id: import("mongoose").Types.ObjectId;
+} & {
+    __v: number;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, BlockChainAddresses, Document<unknown, {}, import("mongoose").FlatRecord<BlockChainAddresses>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<BlockChainAddresses> & {
+    _id: import("mongoose").Types.ObjectId;
+} & {
+    __v: number;
+}>;
 export declare class SPV extends Document {
     userId: string;
     name: string;
@@ -111,6 +125,7 @@ export declare class SPV extends Document {
     memoAndTerms?: MemoAndTerms;
     escrowBankDetails?: EscrowBankDetails;
     legalDocuments?: LegalDocuments;
+    blockchain?: BlockChainAddresses;
     boardMembers: BoardMember[];
     daoConfiguration?: DAOConfiguration;
     completedSteps: string[];

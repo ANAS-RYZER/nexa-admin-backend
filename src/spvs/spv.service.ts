@@ -1,13 +1,12 @@
-import { Injectable, NotFoundException  } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { spvStatus, SpvStatusDocument } from './schemas/spvstatus.schema';
-import { SpvStatusPaginationDto } from './dto/spv-status-pagination.dto';
-import { UpdateSpvStatusDto } from './dto/update-spv-status.dto';
-import { CompanyStatus } from './schemas/spv.schema';
-import { SPV, SPVDocument } from './schemas/spv.schema';
-import { EmailService } from '../infra/email/email.service';
-
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { spvStatus, SpvStatusDocument } from "./schemas/spvstatus.schema";
+import { SpvStatusPaginationDto } from "./dto/spv-status-pagination.dto";
+import { UpdateSpvStatusDto } from "./dto/update-spv-status.dto";
+import { CompanyStatus } from "./schemas/spv.schema";
+import { SPV, SPVDocument } from "./schemas/spv.schema";
+import { EmailService } from "../infra/email/email.service";
 
 @Injectable()
 export class SpvStatusService {
@@ -16,9 +15,9 @@ export class SpvStatusService {
     private readonly spvStatusModel: Model<SpvStatusDocument>,
 
     @InjectModel(SPV.name)
-    private readonly spvModel: Model<SPVDocument>, 
+    private readonly spvModel: Model<SPVDocument>,
 
-     private readonly emailService: EmailService,
+    private readonly emailService: EmailService,
   ) {}
 
   async getAll(query: SpvStatusPaginationDto) {
@@ -27,16 +26,16 @@ export class SpvStatusService {
     const skip = (page - 1) * limit;
     const filter: Record<string, any> = {};
     if (query.status) {
-        filter.status = query.status;
+      filter.status = query.status;
     }
 
     const [data, totalCount] = await Promise.all([
       this.spvStatusModel
         .find(filter)
         .sort({ createdAt: -1 })
+        .populate("spvId", "name userId blockchain") 
         .skip(skip)
         .limit(limit)
-        .lean()
         .exec(),
       this.spvStatusModel.countDocuments(filter),
     ]);
@@ -58,44 +57,63 @@ export class SpvStatusService {
     };
   }
 
-
   async updateSpvStatus(spvId: string, body: UpdateSpvStatusDto) {
-    //  Find SPVStatus record
     const spvStatusRecord = await this.spvStatusModel.findOne({ spvId });
     if (!spvStatusRecord) {
-      throw new NotFoundException('SPV status record not found');
+      throw new NotFoundException("SPV status record not found");
     }
-
-    //  Update SPVStatus record (always)
-    await this.spvStatusModel.updateOne(
-      { _id: spvStatusRecord._id },
+    const updatedSpvStatus = await this.spvStatusModel.findByIdAndUpdate(
+      spvStatusRecord._id,
       {
-        status: body.status,
-        adminComments: body.adminComments ?? null,
+        $set: {
+          status: body.status,
+          adminComments: body.adminComments ?? null,
+        },
       },
+      { new: true },
     );
 
-    // Update SPV model status (for both Active and Rejected)
-    const spvUpdateResult = await this.spvModel.updateOne(
-      { _id: spvId },
-      { status: body.status },
-    );
+    if (!updatedSpvStatus) {
+      throw new NotFoundException("Failed to update SPV status record");
+    }
+    // 3. Only update SPV if status is ACTIVE
+    let spvUpdateResult = null;
 
-    if (spvUpdateResult.matchedCount === 0) {
-      throw new NotFoundException('SPV record not found');
+    console.log("Updated SPV Status:", body);
+    console.log("Updated SPV Block chain:", body.blockchain);
+
+    if (updatedSpvStatus?.status === CompanyStatus.ACTIVE) {
+      spvUpdateResult = await this.spvModel.findByIdAndUpdate(
+        spvId,
+        {
+          status: body.status,
+          blockchain: {
+            spvAddress: body.blockchain?.spvAddress,
+            daoAddress: body.blockchain?.daoAddress,
+            txHash: body.blockchain?.txHash,
+          },
+        },
+
+        { new: true },
+      );
+
+      if (!spvUpdateResult) {
+        throw new NotFoundException("SPV record not found");
+      }
     }
 
+    // 4. Send email for ACTIVE or REJECTED
     if (
-      body.status === CompanyStatus.ACTIVE ||
-      body.status === CompanyStatus.REJECTED
+      updatedSpvStatus.status === CompanyStatus.ACTIVE ||
+      updatedSpvStatus.status === CompanyStatus.REJECTED
     ) {
       await this.emailService.sendSpvStatusUpdateEmail(
-        spvStatusRecord.issueremail,
+        updatedSpvStatus.issueremail,
         {
-          issuerName: spvStatusRecord.issuername,
-          spvName: spvStatusRecord.spvname,
-          status: body.status,
-          adminComments: body.adminComments,
+          issuerName: updatedSpvStatus.issuername,
+          spvName: updatedSpvStatus.spvname,
+          status: updatedSpvStatus.status,
+          adminComments: updatedSpvStatus.adminComments,
         },
       );
     }
@@ -103,11 +121,9 @@ export class SpvStatusService {
     return {
       success: true,
       message:
-        body.status === CompanyStatus.ACTIVE
-          ? 'SPV activated successfully'
-          : 'SPV rejected successfully',
+        updatedSpvStatus.status === CompanyStatus.ACTIVE
+          ? "SPV activated and updated successfully"
+          : "SPV status updated successfully (SPV notupdated)",
     };
   }
 }
-
-

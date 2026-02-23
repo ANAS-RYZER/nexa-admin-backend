@@ -1,6 +1,6 @@
-import { Model } from 'mongoose';
-import { AssetDocument } from '../schemas/asset.schema';
-import { SPV } from '../../spvs/schemas/spv.schema';
+import { Model } from "mongoose";
+import { AssetDocument } from "../schemas/asset.schema";
+import { SPV } from "../../spvs/schemas/spv.schema";
 export declare class AssetService {
     private readonly assetModel;
     private readonly spvModel;

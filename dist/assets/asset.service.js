@@ -65,15 +65,28 @@ let AssetApprovalService = class AssetApprovalService {
             assetId: assetObjectId,
         });
         if (!approvalRecord) {
-            throw new common_1.NotFoundException('Asset approval record not found');
+            throw new common_1.NotFoundException("Asset approval record not found");
         }
-        await this.assetApprovalModel.updateOne({ _id: approvalRecord._id }, {
+        const updatedAssetApproval = await this.assetApprovalModel.findByIdAndUpdate(approvalRecord._id, {
             status: body.status,
             adminComments: body.adminComments ?? null,
-        });
-        const assetUpdate = await this.assetModel.updateOne({ _id: assetObjectId }, { status: body.status });
-        if (assetUpdate.matchedCount === 0) {
-            throw new common_1.NotFoundException('Asset not found');
+        }, { new: true });
+        if (!updatedAssetApproval) {
+            throw new common_1.NotFoundException("Failed to update Asset approval record");
+        }
+        let assetUpdateResult = null;
+        if (updatedAssetApproval?.status === asset_type_1.AssetStatus.APPROVED) {
+            assetUpdateResult = await this.assetModel.findByIdAndUpdate(assetObjectId, {
+                status: body.status,
+                blockchain: {
+                    spvAddress: body.blockchain?.spvAddress,
+                    daoAddress: body.blockchain?.daoAddress,
+                    txHash: body.blockchain?.txHash,
+                },
+            }, { new: true });
+        }
+        if (!assetUpdateResult) {
+            throw new common_1.NotFoundException("Failed to update Asset record");
         }
         if (body.status === asset_type_1.AssetStatus.APPROVED ||
             body.status === asset_type_1.AssetStatus.REJECTED) {
@@ -87,8 +100,8 @@ let AssetApprovalService = class AssetApprovalService {
         return {
             success: true,
             message: body.status === asset_type_1.AssetStatus.APPROVED
-                ? 'Asset approved successfully'
-                : 'Asset rejected successfully',
+                ? "Asset approved successfully"
+                : "Asset rejected successfully",
         };
     }
 };

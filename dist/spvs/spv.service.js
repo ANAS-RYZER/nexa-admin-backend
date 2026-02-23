@@ -38,9 +38,9 @@ let SpvStatusService = class SpvStatusService {
             this.spvStatusModel
                 .find(filter)
                 .sort({ createdAt: -1 })
+                .populate("spvId", "name userId blockchain")
                 .skip(skip)
                 .limit(limit)
-                .lean()
                 .exec(),
             this.spvStatusModel.countDocuments(filter),
         ]);
@@ -62,30 +62,47 @@ let SpvStatusService = class SpvStatusService {
     async updateSpvStatus(spvId, body) {
         const spvStatusRecord = await this.spvStatusModel.findOne({ spvId });
         if (!spvStatusRecord) {
-            throw new common_1.NotFoundException('SPV status record not found');
+            throw new common_1.NotFoundException("SPV status record not found");
         }
-        await this.spvStatusModel.updateOne({ _id: spvStatusRecord._id }, {
-            status: body.status,
-            adminComments: body.adminComments ?? null,
-        });
-        const spvUpdateResult = await this.spvModel.updateOne({ _id: spvId }, { status: body.status });
-        if (spvUpdateResult.matchedCount === 0) {
-            throw new common_1.NotFoundException('SPV record not found');
-        }
-        if (body.status === spv_schema_1.CompanyStatus.ACTIVE ||
-            body.status === spv_schema_1.CompanyStatus.REJECTED) {
-            await this.emailService.sendSpvStatusUpdateEmail(spvStatusRecord.issueremail, {
-                issuerName: spvStatusRecord.issuername,
-                spvName: spvStatusRecord.spvname,
+        const updatedSpvStatus = await this.spvStatusModel.findByIdAndUpdate(spvStatusRecord._id, {
+            $set: {
                 status: body.status,
-                adminComments: body.adminComments,
+                adminComments: body.adminComments ?? null,
+            },
+        }, { new: true });
+        if (!updatedSpvStatus) {
+            throw new common_1.NotFoundException("Failed to update SPV status record");
+        }
+        let spvUpdateResult = null;
+        console.log("Updated SPV Status:", body);
+        console.log("Updated SPV Block chain:", body.blockchain);
+        if (updatedSpvStatus?.status === spv_schema_1.CompanyStatus.ACTIVE) {
+            spvUpdateResult = await this.spvModel.findByIdAndUpdate(spvId, {
+                status: body.status,
+                blockchain: {
+                    spvAddress: body.blockchain?.spvAddress,
+                    daoAddress: body.blockchain?.daoAddress,
+                    txHash: body.blockchain?.txHash,
+                },
+            }, { new: true });
+            if (!spvUpdateResult) {
+                throw new common_1.NotFoundException("SPV record not found");
+            }
+        }
+        if (updatedSpvStatus.status === spv_schema_1.CompanyStatus.ACTIVE ||
+            updatedSpvStatus.status === spv_schema_1.CompanyStatus.REJECTED) {
+            await this.emailService.sendSpvStatusUpdateEmail(updatedSpvStatus.issueremail, {
+                issuerName: updatedSpvStatus.issuername,
+                spvName: updatedSpvStatus.spvname,
+                status: updatedSpvStatus.status,
+                adminComments: updatedSpvStatus.adminComments,
             });
         }
         return {
             success: true,
-            message: body.status === spv_schema_1.CompanyStatus.ACTIVE
-                ? 'SPV activated successfully'
-                : 'SPV rejected successfully',
+            message: updatedSpvStatus.status === spv_schema_1.CompanyStatus.ACTIVE
+                ? "SPV activated and updated successfully"
+                : "SPV status updated successfully (SPV notupdated)",
         };
     }
 };

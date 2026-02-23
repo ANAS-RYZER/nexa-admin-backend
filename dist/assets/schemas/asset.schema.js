@@ -9,12 +9,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AssetSchema = exports.Asset = void 0;
+exports.AssetSchema = exports.Asset = exports.BlockChainAddressesSchema = exports.BlockChainAddresses = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const asset_type_1 = require("../interfaces/asset.type");
-let Asset = class Asset extends mongoose_2.Document {
+const spv_schema_1 = require("../../spvs/schemas/spv.schema");
+let BlockChainAddresses = class BlockChainAddresses {
 };
+exports.BlockChainAddresses = BlockChainAddresses;
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], BlockChainAddresses.prototype, "spvAddress", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], BlockChainAddresses.prototype, "daoAddress", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], BlockChainAddresses.prototype, "txHash", void 0);
+exports.BlockChainAddresses = BlockChainAddresses = __decorate([
+    (0, mongoose_1.Schema)({
+        timestamps: true,
+        toJSON: {
+            virtuals: true,
+            transform: (_, ret) => {
+                delete ret.__v;
+                return ret;
+            },
+        },
+    }),
+    (0, mongoose_1.Schema)({ _id: false })
+], BlockChainAddresses);
+exports.BlockChainAddressesSchema = mongoose_1.SchemaFactory.createForClass(BlockChainAddresses);
+class Asset extends mongoose_2.Document {
+}
 exports.Asset = Asset;
 __decorate([
     (0, mongoose_1.Prop)({
@@ -27,7 +57,7 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: mongoose_2.Schema.Types.ObjectId,
-        ref: "spvs",
+        ref: spv_schema_1.SPV.name,
         required: true,
     }),
     __metadata("design:type", mongoose_2.Schema.Types.ObjectId)
@@ -162,6 +192,10 @@ __decorate([
     }),
     __metadata("design:type", Number)
 ], Asset.prototype, "longitude", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: exports.BlockChainAddressesSchema, default: {} }),
+    __metadata("design:type", BlockChainAddresses)
+], Asset.prototype, "blockchain", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         type: Boolean,
@@ -449,18 +483,6 @@ __decorate([
     }),
     __metadata("design:type", Array)
 ], Asset.prototype, "signatureDocuments", void 0);
-exports.Asset = Asset = __decorate([
-    (0, mongoose_1.Schema)({
-        timestamps: true,
-        toJSON: {
-            virtuals: true,
-            transform: (_, ret) => {
-                delete ret.__v;
-                return ret;
-            },
-        },
-    })
-], Asset);
 exports.AssetSchema = mongoose_1.SchemaFactory.createForClass(Asset);
 exports.AssetSchema.pre("validate", async function (next) {
     if (!this.currency && this.spvId) {

@@ -1,6 +1,20 @@
 import { Document, HydratedDocument, Schema as MongooseSchema } from "mongoose";
 import { AssetClass, AssetCategory, AssetStyle, LockInPeriodType, AssetStage, InstrumentType, Currency, AssetStatus, EInvestorAcreditation, EKycOrAmlRequirements } from "../interfaces/asset.type";
 export type AssetDocument = HydratedDocument<Asset>;
+export declare class BlockChainAddresses {
+    spvAddress?: string;
+    daoAddress?: string;
+    txHash?: string;
+}
+export declare const BlockChainAddressesSchema: MongooseSchema<BlockChainAddresses, import("mongoose").Model<BlockChainAddresses, any, any, any, Document<unknown, any, BlockChainAddresses, any, {}> & BlockChainAddresses & {
+    _id: import("mongoose").Types.ObjectId;
+} & {
+    __v: number;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, BlockChainAddresses, Document<unknown, {}, import("mongoose").FlatRecord<BlockChainAddresses>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<BlockChainAddresses> & {
+    _id: import("mongoose").Types.ObjectId;
+} & {
+    __v: number;
+}>;
 export declare class Asset extends Document {
     issuerId?: MongooseSchema.Types.ObjectId;
     spvId: MongooseSchema.Types.ObjectId;
@@ -22,6 +36,7 @@ export declare class Asset extends Document {
     landmark?: string;
     latitude?: number;
     longitude?: number;
+    blockchain?: BlockChainAddresses;
     hasGlobalFeePercentagesSynced: boolean;
     hasGlobalFAQsSynced: boolean;
     hasGlobalRiskFactorsSynced: boolean;

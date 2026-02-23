@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SPVSchema = exports.SPV = exports.DAOConfiguration = exports.GovernanceRights = exports.VotingPeriod = exports.LegalDocuments = exports.EscrowBankDetails = exports.MemoAndTerms = exports.BoardMember = exports.FileUpload = exports.Currency = exports.CompanyStatus = exports.GovernanceModel = exports.Blockchain = exports.Role = exports.AccountType = exports.SPVType = void 0;
+exports.SPVSchema = exports.SPV = exports.BlockChainAddressesSchema = exports.BlockChainAddresses = exports.DAOConfiguration = exports.GovernanceRights = exports.VotingPeriod = exports.LegalDocuments = exports.EscrowBankDetails = exports.MemoAndTerms = exports.BoardMember = exports.FileUpload = exports.Currency = exports.CompanyStatus = exports.GovernanceModel = exports.Blockchain = exports.Role = exports.AccountType = exports.SPVType = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 var SPVType;
@@ -266,6 +266,25 @@ exports.DAOConfiguration = DAOConfiguration = __decorate([
     (0, mongoose_1.Schema)({ _id: false })
 ], DAOConfiguration);
 const DAOConfigurationSchema = mongoose_1.SchemaFactory.createForClass(DAOConfiguration);
+let BlockChainAddresses = class BlockChainAddresses {
+};
+exports.BlockChainAddresses = BlockChainAddresses;
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], BlockChainAddresses.prototype, "spvAddress", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], BlockChainAddresses.prototype, "daoAddress", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], BlockChainAddresses.prototype, "txHash", void 0);
+exports.BlockChainAddresses = BlockChainAddresses = __decorate([
+    (0, mongoose_1.Schema)({ _id: false })
+], BlockChainAddresses);
+exports.BlockChainAddressesSchema = mongoose_1.SchemaFactory.createForClass(BlockChainAddresses);
 let SPV = class SPV extends mongoose_2.Document {
 };
 exports.SPV = SPV;
@@ -286,7 +305,7 @@ __decorate([
     __metadata("design:type", String)
 ], SPV.prototype, "type", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, default: 'USA' }),
+    (0, mongoose_1.Prop)({ required: true, default: "USA" }),
     __metadata("design:type", String)
 ], SPV.prototype, "jurisdiction", void 0);
 __decorate([
@@ -306,7 +325,11 @@ __decorate([
     __metadata("design:type", String)
 ], SPV.prototype, "status", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ enum: Object.values(Currency), default: Currency.USD, required: true }),
+    (0, mongoose_1.Prop)({
+        enum: Object.values(Currency),
+        default: Currency.USD,
+        required: true,
+    }),
     __metadata("design:type", String)
 ], SPV.prototype, "currency", void 0);
 __decorate([
@@ -326,6 +349,10 @@ __decorate([
     __metadata("design:type", LegalDocuments)
 ], SPV.prototype, "legalDocuments", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ type: exports.BlockChainAddressesSchema, default: {} }),
+    __metadata("design:type", BlockChainAddresses)
+], SPV.prototype, "blockchain", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: [BoardMemberSchema], default: [] }),
     __metadata("design:type", Array)
 ], SPV.prototype, "boardMembers", void 0);
@@ -339,7 +366,7 @@ __decorate([
 ], SPV.prototype, "completedSteps", void 0);
 exports.SPV = SPV = __decorate([
     (0, mongoose_1.Schema)({
-        collection: 'spvs',
+        collection: "spvs",
         timestamps: true,
         toJSON: {
             virtuals: true,
@@ -364,5 +391,5 @@ exports.SPVSchema.index({ userId: 1, status: 1 });
 exports.SPVSchema.index({ OnchainAddress: 1 }, { sparse: true });
 exports.SPVSchema.index({ blockchainCompanyId: 1 }, { sparse: true });
 exports.SPVSchema.index({ jurisdiction: 1 });
-exports.SPVSchema.index({ 'boardMembers.email': 1 });
+exports.SPVSchema.index({ "boardMembers.email": 1 });
 //# sourceMappingURL=spv.schema.js.map

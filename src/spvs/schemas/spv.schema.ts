@@ -1,57 +1,57 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document, HydratedDocument } from "mongoose";
 
 export type SPVDocument = HydratedDocument<SPV>;
 
 // Enums
 export enum SPVType {
-  LLC = 'LLC',
-  LP = 'LP',
-  TRUST = 'Trust',
-  CORPORATION = 'Corporation',
+  LLC = "LLC",
+  LP = "LP",
+  TRUST = "Trust",
+  CORPORATION = "Corporation",
 }
 
 export enum AccountType {
-  SAVINGS = 'Savings',
-  CHECKING = 'Checking',
-  CURRENT = 'Current',
-  ESCROW = 'Escrow',
+  SAVINGS = "Savings",
+  CHECKING = "Checking",
+  CURRENT = "Current",
+  ESCROW = "Escrow",
 }
 
 export enum Role {
-  DIRECTOR = 'Director',
-  ASSET_MANAGER = 'Asset Manager',
-  INVESTOR_MANAGER = 'Investor Manager'
+  DIRECTOR = "Director",
+  ASSET_MANAGER = "Asset Manager",
+  INVESTOR_MANAGER = "Investor Manager",
 }
 
 export enum Blockchain {
-  ETHEREUM = 'Ethereum',
-  POLYGON = 'Polygon',
-  BINANCE_SMART_CHAIN = 'Binance Smart Chain',
-  XRPL = 'XRPL',
+  ETHEREUM = "Ethereum",
+  POLYGON = "Polygon",
+  BINANCE_SMART_CHAIN = "Binance Smart Chain",
+  XRPL = "XRPL",
 }
 
 export enum GovernanceModel {
-  TOKEN_BASED = 'Token-Weighted',
-  EQUAL_WEIGHTED = 'Equal-Voting',
-  REPUTATION = 'Reputation',
+  TOKEN_BASED = "Token-Weighted",
+  EQUAL_WEIGHTED = "Equal-Voting",
+  REPUTATION = "Reputation",
 }
 
 export enum CompanyStatus {
-  DRAFT = 'Draft',
-  PENDING = 'Pending',
-  APPROVAL = 'Approval',
-  REJECTED = 'Rejected',  
-  ACTIVE = 'Active',
-  INACTIVE = 'Inactive',
+  DRAFT = "Draft",
+  PENDING = "Pending",
+  APPROVAL = "Approval",
+  REJECTED = "Rejected",
+  ACTIVE = "Active",
+  INACTIVE = "Inactive",
 }
 
 export enum Currency {
-  USD = 'USD',
-  EUR = 'EUR',
-  GBP = 'GBP',
-  INR = 'INR',
-  AED = 'AED',
+  USD = "USD",
+  EUR = "EUR",
+  GBP = "GBP",
+  INR = "INR",
+  AED = "AED",
 }
 
 // Subdocument Schemas
@@ -198,7 +198,6 @@ export class DAOConfiguration {
   @Prop({ type: VotingPeriodSchema })
   votingPeriod?: VotingPeriod;
 
-
   @Prop({ type: GovernanceRightsSchema })
   governanceRights?: GovernanceRights;
 
@@ -208,17 +207,32 @@ export class DAOConfiguration {
 
 const DAOConfigurationSchema = SchemaFactory.createForClass(DAOConfiguration);
 
+@Schema({ _id: false })
+export class BlockChainAddresses {
+  @Prop()
+  spvAddress?: string;
+
+  @Prop()
+  daoAddress?: string;
+
+  @Prop()
+  txHash?: string;
+}
+
+export const BlockChainAddressesSchema =
+  SchemaFactory.createForClass(BlockChainAddresses);
+
 // Main SPV Schema
 @Schema({
-  collection: 'spvs',
+  collection: "spvs",
   timestamps: true,
-  toJSON: { 
+  toJSON: {
     virtuals: true,
     transform: (_, ret: Record<string, unknown>) => {
       return ret;
     },
   },
-  toObject: { 
+  toObject: {
     virtuals: true,
     transform: (_, ret: Record<string, unknown>) => {
       return ret;
@@ -238,7 +252,7 @@ export class SPV extends Document {
   @Prop({ required: true, enum: Object.values(SPVType) })
   type: SPVType;
 
-  @Prop({ required: true, default: 'USA' })
+  @Prop({ required: true, default: "USA" })
   jurisdiction: string;
 
   @Prop()
@@ -253,7 +267,11 @@ export class SPV extends Document {
   @Prop({ enum: Object.values(CompanyStatus), default: CompanyStatus.DRAFT })
   status: CompanyStatus;
 
-  @Prop({ enum: Object.values(Currency), default: Currency.USD, required: true })
+  @Prop({
+    enum: Object.values(Currency),
+    default: Currency.USD,
+    required: true,
+  })
   currency: Currency;
 
   @Prop()
@@ -267,6 +285,8 @@ export class SPV extends Document {
 
   @Prop({ type: LegalDocumentsSchema, default: {} })
   legalDocuments?: LegalDocuments;
+  @Prop({ type: BlockChainAddressesSchema, default: {} })
+  blockchain?: BlockChainAddresses;
 
   // Board Members as Array of Objects (Embedded)
   @Prop({ type: [BoardMemberSchema], default: [] })
@@ -280,7 +300,7 @@ export class SPV extends Document {
 
   createdAt: Date;
   updatedAt: Date;
-}
+} 
 
 export const SPVSchema = SchemaFactory.createForClass(SPV);
 
@@ -293,4 +313,4 @@ SPVSchema.index({ userId: 1, status: 1 }); // User's SPVs by status
 SPVSchema.index({ OnchainAddress: 1 }, { sparse: true }); // Sparse index for optional field
 SPVSchema.index({ blockchainCompanyId: 1 }, { sparse: true });
 SPVSchema.index({ jurisdiction: 1 });
-SPVSchema.index({ 'boardMembers.email': 1 }); // For board member queries
+SPVSchema.index({ "boardMembers.email": 1 }); // For board member queries

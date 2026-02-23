@@ -13,13 +13,14 @@ exports.SpvStatusSchema = exports.spvStatus = void 0;
 const spv_schema_1 = require("./spv.schema");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const issuer_schema_1 = require("../../issuers/schemas/issuer.schema");
 let spvStatus = class spvStatus extends mongoose_2.Document {
 };
 exports.spvStatus = spvStatus;
 __decorate([
     (0, mongoose_1.Prop)({
         type: mongoose_2.Schema.Types.ObjectId,
-        ref: 'issuerprofiles',
+        ref: issuer_schema_1.IssuerUser.name,
         required: true,
     }),
     __metadata("design:type", mongoose_2.Schema.Types.ObjectId)
@@ -27,7 +28,7 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: mongoose_2.Schema.Types.ObjectId,
-        ref: 'spvs',
+        ref: spv_schema_1.SPV.name,
         required: true,
     }),
     __metadata("design:type", mongoose_2.Schema.Types.ObjectId)
@@ -58,7 +59,7 @@ __decorate([
 ], spvStatus.prototype, "spvname", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        enun: Object.values(spv_schema_1.CompanyStatus),
+        enum: Object.values(spv_schema_1.CompanyStatus),
         required: true,
     }),
     __metadata("design:type", String)
