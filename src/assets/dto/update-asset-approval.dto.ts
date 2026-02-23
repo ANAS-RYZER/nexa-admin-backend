@@ -10,14 +10,29 @@ import { Type } from "class-transformer";
 
 export class BlockChainDto {
   @IsString()
-  spvAddress: string;
+  assetAddress: string;
 
   @IsOptional()
   @IsString()
-  daoAddress: string;
+  assetManagerAddress: string;
+
+  @IsOptional()
+  @IsString()
+  orderManagerAddress: string;
+
+  @IsString()
+  assetIdHash: string;
+
+  
+  @IsString()
+  spvIdHash: string;
 
   @IsString()
   txHash: string;
+
+  
+
+  
 }
 
 export class UpdateAssetApprovalDto {
