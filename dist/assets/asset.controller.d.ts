@@ -6,13 +6,15 @@ export declare class AssetApprovalController {
     constructor(assetApprovalService: AssetApprovalService);
     getAssetApprovalList(query: AssetApprovalPaginationDto): Promise<{
         success: boolean;
-        data: (import("mongoose").FlattenMaps<import("mongoose").Document<unknown, {}, import("./schemas/assetApproval.schema").assetApproval, {}, {}> & import("./schemas/assetApproval.schema").assetApproval & Required<{
+        data: (import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("./schemas/assetApproval.schema").assetApproval, {}, {}> & import("./schemas/assetApproval.schema").assetApproval & Required<{
             _id: import("mongoose").Types.ObjectId;
         }> & {
             __v: number;
-        }> & Required<{
+        }, {}, {}> & import("mongoose").Document<unknown, {}, import("./schemas/assetApproval.schema").assetApproval, {}, {}> & import("./schemas/assetApproval.schema").assetApproval & Required<{
             _id: import("mongoose").Types.ObjectId;
-        }>)[];
+        }> & {
+            __v: number;
+        })[];
         pagination: {
             page: number;
             limit: number;

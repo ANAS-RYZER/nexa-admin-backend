@@ -34,13 +34,18 @@ let AssetApprovalService = class AssetApprovalService {
         if (query.status) {
             filter.status = query.status;
         }
+        console.log(Object.keys(this.assetApprovalModel.db.models));
         const [data, totalCount] = await Promise.all([
             this.assetApprovalModel
                 .find(filter)
                 .sort({ createdAt: -1 })
+                .populate({
+                path: "assetId",
+                model: this.assetModel,
+                select: "name userId blockchain",
+            })
                 .skip(skip)
                 .limit(limit)
-                .lean()
                 .exec(),
             this.assetApprovalModel.countDocuments(filter),
         ]);
@@ -75,12 +80,16 @@ let AssetApprovalService = class AssetApprovalService {
             throw new common_1.NotFoundException("Failed to update Asset approval record");
         }
         let assetUpdateResult = null;
+        console.log("Updated Asset Approval:", body);
         if (updatedAssetApproval?.status === asset_type_1.AssetStatus.APPROVED) {
             assetUpdateResult = await this.assetModel.findByIdAndUpdate(assetObjectId, {
                 status: body.status,
                 blockchain: {
-                    spvAddress: body.blockchain?.spvAddress,
-                    daoAddress: body.blockchain?.daoAddress,
+                    assetAddress: body.blockchain?.assetAddress,
+                    assetManagerAddress: body.blockchain?.assetManagerAddress,
+                    orderManagerAddress: body.blockchain?.orderManagerAddress,
+                    assetIdHash: body.blockchain?.assetIdHash,
+                    spvIdHash: body.blockchain?.spvIdHash,
                     txHash: body.blockchain?.txHash,
                 },
             }, { new: true });

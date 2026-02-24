@@ -16,16 +16,6 @@ import { SPV } from "src/spvs/schemas/spv.schema";
 
 export type AssetDocument = HydratedDocument<Asset>;
 
-@Schema({
-  timestamps: true,
-  toJSON: {
-    virtuals: true,
-    transform: (_, ret: Record<string, unknown>) => {
-      delete ret.__v;
-      return ret;
-    },
-  },
-})
 @Schema({ _id: false })
 export class BlockChainAddresses {
   @Prop()
@@ -45,7 +35,16 @@ export class BlockChainAddresses {
 
 export const BlockChainAddressesSchema =
   SchemaFactory.createForClass(BlockChainAddresses);
-
+@Schema({
+  timestamps: true,
+  toJSON: {
+    virtuals: true,
+    transform: (_, ret: Record<string, unknown>) => {
+      delete ret.__v;
+      return ret;
+    },
+  },
+})
 export class Asset extends Document {
   @Prop({
     type: MongooseSchema.Types.ObjectId,
@@ -551,7 +550,7 @@ AssetSchema.pre("validate", async function (next) {
   // Only set currency if not provided and companyId exists
   if (!this.currency && this.spvId) {
     try {
-      const SPVModel = this.model("spvs");
+      const SPVModel = this.model(SPV.name);
       const spv = await SPVModel.findById(this.spvId).select("currency");
 
       if (spv && (spv as any).currency) {
