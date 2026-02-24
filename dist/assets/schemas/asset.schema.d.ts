@@ -2,8 +2,11 @@ import { Document, HydratedDocument, Schema as MongooseSchema } from "mongoose";
 import { AssetClass, AssetCategory, AssetStyle, LockInPeriodType, AssetStage, InstrumentType, Currency, AssetStatus, EInvestorAcreditation, EKycOrAmlRequirements } from "../interfaces/asset.type";
 export type AssetDocument = HydratedDocument<Asset>;
 export declare class BlockChainAddresses {
-    spvAddress?: string;
-    daoAddress?: string;
+    assetAddress?: string;
+    assetManagerAddress?: string;
+    orderManagerAddress?: string;
+    assetIdHash?: string;
+    spvIdHash?: string;
     txHash?: string;
 }
 export declare const BlockChainAddressesSchema: MongooseSchema<BlockChainAddresses, import("mongoose").Model<BlockChainAddresses, any, any, any, Document<unknown, any, BlockChainAddresses, any, {}> & BlockChainAddresses & {

@@ -20,31 +20,33 @@ exports.BlockChainAddresses = BlockChainAddresses;
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], BlockChainAddresses.prototype, "spvAddress", void 0);
+], BlockChainAddresses.prototype, "assetAddress", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], BlockChainAddresses.prototype, "daoAddress", void 0);
+], BlockChainAddresses.prototype, "assetManagerAddress", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], BlockChainAddresses.prototype, "orderManagerAddress", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], BlockChainAddresses.prototype, "assetIdHash", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], BlockChainAddresses.prototype, "spvIdHash", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], BlockChainAddresses.prototype, "txHash", void 0);
 exports.BlockChainAddresses = BlockChainAddresses = __decorate([
-    (0, mongoose_1.Schema)({
-        timestamps: true,
-        toJSON: {
-            virtuals: true,
-            transform: (_, ret) => {
-                delete ret.__v;
-                return ret;
-            },
-        },
-    }),
     (0, mongoose_1.Schema)({ _id: false })
 ], BlockChainAddresses);
 exports.BlockChainAddressesSchema = mongoose_1.SchemaFactory.createForClass(BlockChainAddresses);
-class Asset extends mongoose_2.Document {
-}
+let Asset = class Asset extends mongoose_2.Document {
+};
 exports.Asset = Asset;
 __decorate([
     (0, mongoose_1.Prop)({
@@ -483,11 +485,23 @@ __decorate([
     }),
     __metadata("design:type", Array)
 ], Asset.prototype, "signatureDocuments", void 0);
+exports.Asset = Asset = __decorate([
+    (0, mongoose_1.Schema)({
+        timestamps: true,
+        toJSON: {
+            virtuals: true,
+            transform: (_, ret) => {
+                delete ret.__v;
+                return ret;
+            },
+        },
+    })
+], Asset);
 exports.AssetSchema = mongoose_1.SchemaFactory.createForClass(Asset);
 exports.AssetSchema.pre("validate", async function (next) {
     if (!this.currency && this.spvId) {
         try {
-            const SPVModel = this.model("spvs");
+            const SPVModel = this.model(spv_schema_1.SPV.name);
             const spv = await SPVModel.findById(this.spvId).select("currency");
             if (spv && spv.currency) {
                 this.currency = spv.currency;

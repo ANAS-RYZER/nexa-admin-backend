@@ -36,14 +36,19 @@ export class AssetApprovalService {
     if (query.status) {
       filter.status = query.status;
     }
+    console.log(Object.keys(this.assetApprovalModel.db.models));
 
     const [data, totalCount] = await Promise.all([
       this.assetApprovalModel
         .find(filter)
         .sort({ createdAt: -1 })
+        .populate({
+          path: "assetId",
+          model: this.assetModel,
+          select: "name userId blockchain",
+        })
         .skip(skip)
         .limit(limit)
-        .lean()
         .exec(),
 
       this.assetApprovalModel.countDocuments(filter),

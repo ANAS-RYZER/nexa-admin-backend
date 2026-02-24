@@ -38,7 +38,7 @@ let SpvStatusService = class SpvStatusService {
             this.spvStatusModel
                 .find(filter)
                 .sort({ createdAt: -1 })
-                .populate("spvId", "name userId blockchain")
+                .populate("assetId", "name userId blockchain")
                 .skip(skip)
                 .limit(limit)
                 .exec(),

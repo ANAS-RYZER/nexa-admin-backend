@@ -11,13 +11,15 @@ export declare class AssetApprovalService {
     constructor(assetApprovalModel: Model<AssetApprovalDocument>, assetModel: Model<AssetDocument>, emailService: EmailService);
     getAll(query: AssetApprovalPaginationDto): Promise<{
         success: boolean;
-        data: (import("mongoose").FlattenMaps<import("mongoose").Document<unknown, {}, assetApproval, {}, {}> & assetApproval & Required<{
+        data: (import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, assetApproval, {}, {}> & assetApproval & Required<{
             _id: Types.ObjectId;
         }> & {
             __v: number;
-        }> & Required<{
+        }, {}, {}> & import("mongoose").Document<unknown, {}, assetApproval, {}, {}> & assetApproval & Required<{
             _id: Types.ObjectId;
-        }>)[];
+        }> & {
+            __v: number;
+        })[];
         pagination: {
             page: number;
             limit: number;
