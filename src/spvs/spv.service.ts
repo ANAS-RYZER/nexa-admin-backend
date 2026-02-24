@@ -33,7 +33,7 @@ export class SpvStatusService {
       this.spvStatusModel
         .find(filter)
         .sort({ createdAt: -1 })
-        .populate("assetId", "name userId blockchain") 
+        .populate("spvId", "name userId blockchain") 
         .skip(skip)
         .limit(limit)
         .exec(),
