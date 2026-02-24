@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 import { AssetStatus } from '../interfaces/asset.type';
+import { IssuerUser } from 'src/issuers/schemas/issuer.schema';
+import { Asset } from './asset.schema';
 
 export type AssetApprovalDocument = HydratedDocument<assetApproval>;
 
@@ -18,14 +20,14 @@ export type AssetApprovalDocument = HydratedDocument<assetApproval>;
 export class assetApproval extends Document {
   @Prop({
     type: MongooseSchema.Types.ObjectId,
-    ref: 'issuerprofiles',
+    ref: IssuerUser.name,
     required: true,
   })
   issuerId: MongooseSchema.Types.ObjectId;
 
   @Prop({
     type: MongooseSchema.Types.ObjectId,
-    ref: 'assets',
+    ref: Asset.name,
     required: true,
   })
   assetId: MongooseSchema.Types.ObjectId;
