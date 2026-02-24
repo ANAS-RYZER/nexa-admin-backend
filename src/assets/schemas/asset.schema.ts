@@ -29,11 +29,16 @@ export type AssetDocument = HydratedDocument<Asset>;
 @Schema({ _id: false })
 export class BlockChainAddresses {
   @Prop()
-  spvAddress?: string;
+  assetAddress?: string;
+  @Prop()
+  assetManagerAddress?: string;
+  @Prop()
+  orderManagerAddress?: string;
 
   @Prop()
-  daoAddress?: string;
-
+  assetIdHash?: string;
+  @Prop()
+  spvIdHash?: string;
   @Prop()
   txHash?: string;
 }

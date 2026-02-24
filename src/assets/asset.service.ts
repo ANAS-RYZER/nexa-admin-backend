@@ -97,6 +97,7 @@ export class AssetApprovalService {
     }
 
     let assetUpdateResult = null;
+    console.log("Updated Asset Approval:", body);
 
     if (updatedAssetApproval?.status === AssetStatus.APPROVED) {
       assetUpdateResult = await this.assetModel.findByIdAndUpdate(
@@ -104,8 +105,11 @@ export class AssetApprovalService {
         {
           status: body.status,
           blockchain: {
-            spvAddress: body.blockchain?.spvAddress,
-            daoAddress: body.blockchain?.daoAddress,
+            assetAddress: body.blockchain?.assetAddress,
+            assetManagerAddress: body.blockchain?.assetManagerAddress,
+            orderManagerAddress: body.blockchain?.orderManagerAddress,
+            assetIdHash: body.blockchain?.assetIdHash,
+            spvIdHash: body.blockchain?.spvIdHash,
             txHash: body.blockchain?.txHash,
           },
         },
